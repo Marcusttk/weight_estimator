@@ -77,7 +77,7 @@ def get_user_fat_percentage():
 def bmi_calculator(body_fat, muscle, gender):
     bmi_base = 19
     # account for the fact that fatter people are naturally more muscular
-    if body_fat > 0.7:
+    if body_fat >= 0.7:
         additional_muscle_factor = body_fat - 0.65
     else:
         additional_muscle_factor = 0
