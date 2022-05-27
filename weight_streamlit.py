@@ -102,6 +102,7 @@ def weight_estimation():
     st.write("Your predicted weight in kg is: ", weight)
     # st.subheader("Was this accurate? Your feedback is appreciated")
     # actual_weight = st.text_input("What was your actual weight (in kg)?", 'nil')
+    st.text("Version1.1")
 
 
 # shows the weight values based on different heights
@@ -137,3 +138,4 @@ def contact_me():
 
 main()
 # unit_test_main()
+
