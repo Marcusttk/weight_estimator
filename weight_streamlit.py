@@ -81,7 +81,7 @@ def bmi_calculator(body_fat, muscle, gender):
         additional_muscle_factor = body_fat - 0.65
     else:
         additional_muscle_factor = 0
-    bmi = bmi_base * (body_fat + muscle + additional_muscle_factor) * gender
+    bmi = bmi_base * ((body_fat + muscle) * gender + additional_muscle_factor)
     return bmi
 
 
