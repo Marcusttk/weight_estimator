@@ -64,7 +64,7 @@ def get_user_fat_percentage():
                              ">45"))
     st.write('You selected:', body_fat)
     fat_value = body_fat_values[body_fat]
-    image = "body_fat_percentage1.jpg"
+    image = "C:/Users/ace-j/AppData/Roaming/JetBrains/PyCharmCE2021.1/scratches/body_fat_percentage1.jpg"
     if st.button('See fat percentage visualised'):
         original = Image.open(image)
         st.image(original, use_column_width=True)
@@ -76,7 +76,12 @@ def get_user_fat_percentage():
 # TODO improve the mathematical formula
 def bmi_calculator(body_fat, muscle, gender):
     bmi_base = 19
-    bmi = bmi_base * (body_fat + muscle) * gender
+    # account for the fact that fatter people are naturally more muscular
+    if body_fat > 0.7:
+        additional_muscle_factor = body_fat - 0.65
+    else:
+        additional_muscle_factor = 0
+    bmi = bmi_base * (body_fat + muscle + additional_muscle_factor) * gender
     return bmi
 
 
