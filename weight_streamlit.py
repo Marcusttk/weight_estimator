@@ -64,7 +64,7 @@ def get_user_fat_percentage():
                              ">45"))
     st.write('You selected:', body_fat)
     fat_value = body_fat_values[body_fat]
-    image = "C:/Users/ace-j/AppData/Roaming/JetBrains/PyCharmCE2021.1/scratches/body_fat_percentage1.jpg"
+    image = "body_fat_percentage1.jpg"
     if st.button('See fat percentage visualised'):
         original = Image.open(image)
         st.image(original, use_column_width=True)
