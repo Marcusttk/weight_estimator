@@ -1,0 +1,19 @@
+{
+  "person1": {"gender": "female", "height":  159, "muscle_type":  "Muscular", "body_fat":  "25 - 30", "actual": 64},
+  "person2": {"gender": "male", "height":  170, "muscle_type":  "Muscular", "body_fat":  "15 - 20", "actual": 77},
+  "person3": {"gender": "female", "height":  155, "muscle_type":  "Fit", "body_fat":  "20 - 25", "actual": 48},
+  "person4": {"gender": "male", "height":  179, "muscle_type":  "Average", "body_fat":  "25 - 30", "actual": 80},
+  "person5": {"gender": "male", "height":  172, "muscle_type":  "Muscular", "body_fat":  "25 - 30", "actual": 88},
+  "person6": {"gender": "female", "height":  165, "muscle_type":  "Average", "body_fat":  "40 - 45", "actual": 90},
+  "person7": {"gender": "male", "height":  165, "muscle_type":  "Muscular", "body_fat":  "15 - 20", "actual": 65},
+  "person8": {"gender": "female", "height":  163, "muscle_type":  "Fit", "body_fat":  "20 - 25", "actual": 52},
+  "person9": {"gender": "female", "height":  165, "muscle_type":  "Muscular", "body_fat":  "20 - 25", "actual": 61},
+  "person10": {"gender": "male", "height":  175, "muscle_type":  "Fit", "body_fat":  "15 - 20", "actual": 70},
+  "angela_lee": {"gender": "female", "height":  163, "muscle_type":  "Muscular", "body_fat":  "10 - 15", "actual": 52},
+  "christian_lee": {"gender": "male", "height":  180, "muscle_type":  "Muscular", "body_fat":  "10 - 15", "actual": 77},
+  "Yubeen": {"gender": "female", "height":  154, "muscle_type":  "Fit", "body_fat":  "15 - 20", "actual": 40},
+  "Stephen Amell": {"gender": "male", "height":  185, "muscle_type":  "Muscular", "body_fat":  "10 - 15", "actual": 82},
+  "Usain Bolt": {"gender": "male", "height":  195, "muscle_type":  "Muscular", "body_fat":  "10 - 15", "actual": 94},
+  "Ronda Rousey": {"gender": "female", "height":  170, "muscle_type":  "Muscular", "body_fat":  "15 - 20", "actual": 61}
+
+}
