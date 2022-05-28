@@ -4,11 +4,10 @@ import json
 
 
 # testing values for now
-muscle_values = {'Below Average': 0.38, 'Average': 0.5, 'Fit': 0.62, 'Muscular': 0.74, "Bodybuilder": 0.86}
-body_fat_values = {'5 - 10': 0.40, '10 - 15': 0.5, '15 - 20': 0.6, '20 - 25': 0.7, "25 - 30": 0.8, "30 - 35": 0.9,
-                   "35 - 40": 1, "40 - 45": 1.1, ">45": 1.2}
-male_multiplier = 1
-female_multiplier = 0.825
+muscle_values = {'Below Average': 0.38, 'Average': 0.5, 'Fit': 0.57, 'Muscular': 0.74, "Bodybuilder": 0.86}
+body_fat_values = {'5 - 10': 0.40, '10 - 15': 0.5, '15 - 20': 0.62, '20 - 25': 0.74, "25 - 30": 0.90, "30 - 35": 1.18,
+                   "35 - 40": 1.38, "40 - 45": 1.60, ">45": 1.84}
+gender_value = {"male": 1, "female": 0.8}
 
 
 def main():
@@ -37,9 +36,9 @@ def get_gender():
     gender = st.selectbox('What is your gender?', ('Male', 'Female'))
     st.write('You selected:', gender)
     if gender == "Male":
-        gender_multiplier = male_multiplier
+        gender_multiplier = gender_value["male"]
     else:
-        gender_multiplier = female_multiplier  # women have less bone mass and less muscle mass
+        gender_multiplier = gender_value["female"] # women have less bone mass and less muscle mass
     return gender_multiplier
 
 
@@ -76,13 +75,25 @@ def get_user_fat_percentage():
 # TODO improve the mathematical formula
 def bmi_calculator(body_fat, muscle, gender):
     bmi_base = 19
+    additional_muscle_factor = 0
     # account for the fact that fatter people are naturally more muscular
-    if body_fat >= 0.7:
-        additional_muscle_factor = (body_fat - 0.65)*0.8
-    else:
-        additional_muscle_factor = 0
+    # if body_fat >= 0.5:
+    #     additional_muscle_factor = (body_fat - 0.5) * 0.65
+    # else:
+    #     additional_muscle_factor = 0
+
     bmi = bmi_base * ((body_fat + muscle) * gender + additional_muscle_factor)
     return bmi
+
+
+def weight_calculation(body_fat, body_type, gender_multiplier, height):
+    # 0.025 to describe the full fat percentage range
+    bmi_lower_bound = bmi_calculator(body_fat - 0.05, body_type, gender_multiplier)
+    bmi_upper_bound = bmi_calculator(body_fat + 0.05, body_type, gender_multiplier)
+    # 5% margin of error
+    weight_lower_bound = round(bmi_lower_bound * (int(height) / 100) ** 2 * 0.95, 1)
+    weight_upper_bound = round(bmi_upper_bound * (int(height) / 100) ** 2 * 1.05, 1)
+    return weight_lower_bound, weight_upper_bound
 
 
 def weight_estimation():
@@ -95,14 +106,13 @@ def weight_estimation():
     body_type = get_user_body_type()
     body_fat = get_user_fat_percentage()
 
-    bmi = bmi_calculator(body_fat, body_type, gender_multiplier)
-    weight = bmi * (int(height) / 100) ** 2
-    weight = round(weight, 1)
+    weight_lower_bound, weight_upper_bound = weight_calculation(body_fat, body_type, gender_multiplier, height)
     st.header("Weight value")
-    st.write("Your predicted weight in kg is: ", weight)
+    final_str = "Your predicted weight in kg is between: " + str(weight_lower_bound) + " to " + str(weight_upper_bound)
+    st.write(final_str)
     # st.subheader("Was this accurate? Your feedback is appreciated")
     # actual_weight = st.text_input("What was your actual weight (in kg)?", 'nil')
-    st.text("Version1.1")
+    st.text("Version1.2")
 
 
 # shows the weight values based on different heights
@@ -127,8 +137,27 @@ def unit_test1(gender_multiplier, json_name):
 
 
 def unit_test_main():
-    unit_test1(male_multiplier, "./weight_male.json")
-    unit_test1(female_multiplier, "./weight_female.json")
+    # unit_test1(male_multiplier, "./weight_male.json")
+    # unit_test1(female_multiplier, "./weight_female.json")
+    people_profile_location = "./people_profiles.json"
+    profiles = json.load(open(people_profile_location))
+    tests_passed = True
+    for people in profiles:
+        body_fat = body_fat_values[profiles[people]["body_fat"]]
+        body_type = muscle_values[profiles[people]["muscle_type"]]
+        height = profiles[people]["height"]
+        gender_multiplier = gender_value[profiles[people]["gender"]]
+        weight_lower, weight_upper = weight_calculation(body_fat, body_type, gender_multiplier, height)
+        if weight_lower <= profiles[people]["actual"] <= weight_upper:
+            message = people + " is WITHIN range."
+        else:
+            message = people + " is OUT of range."
+            tests_passed = False
+        range_str = " Actual: " + str(profiles[people]["actual"]) + ", range: " + str(weight_lower) + " - " \
+                    + str(weight_upper)
+        print(message + range_str)
+    if tests_passed:
+        print("Good job all test cases passed")
 
 
 def contact_me():
@@ -138,4 +167,3 @@ def contact_me():
 
 main()
 # unit_test_main()
-
