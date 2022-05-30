@@ -88,11 +88,19 @@ def bmi_calculator(body_fat, muscle, gender):
 
 def weight_calculation(body_fat, body_type, gender_multiplier, height):
     # 0.025 to describe the full fat percentage range
-    bmi_lower_bound = bmi_calculator(body_fat - 0.05, body_type, gender_multiplier)
-    bmi_upper_bound = bmi_calculator(body_fat + 0.05, body_type, gender_multiplier)
+    bmi_lower_bound = bmi_calculator(body_fat - 0.025, body_type, gender_multiplier)
+    bmi_upper_bound = bmi_calculator(body_fat + 0.025, body_type, gender_multiplier)
     # 5% margin of error
-    weight_lower_bound = round(bmi_lower_bound * (int(height) / 100) ** 2 * 0.95, 1)
-    weight_upper_bound = round(bmi_upper_bound * (int(height) / 100) ** 2 * 1.05, 1)
+    weight_lower_bound = round(bmi_lower_bound * (int(height) / 100) ** 2 * 0.97, 1)
+    weight_upper_bound = round(bmi_upper_bound * (int(height) / 100) ** 2 * 1.03, 1)
+    # cap the range at +/- 5kg
+    middle_bmi = bmi_calculator(body_fat, body_type, gender_multiplier)
+    middle_value = round(middle_bmi * (int(height) / 100) ** 2, 1)
+    threshold = 5.5
+    if middle_value - bmi_lower_bound > threshold:
+        weight_lower_bound = middle_value - threshold
+    if weight_upper_bound - middle_value > threshold:
+        weight_upper_bound = middle_value + threshold
     return weight_lower_bound, weight_upper_bound
 
 
